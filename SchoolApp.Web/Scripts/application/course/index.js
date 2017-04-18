@@ -2,10 +2,10 @@
 (function (ng) {
     'use strict';
 
-    ng.module('seliseSchool.course', [
+    ng.module('schoolApp.course', [
         'ngRoute',
-        'seliseSchool.course.controllers',
-        'seliseSchool.course.models'
+        'schoolApp.course.controllers',
+        'schoolApp.course.models'
     ])
         .config([
             '$routeProvider',

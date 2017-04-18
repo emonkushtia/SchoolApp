@@ -1,7 +1,7 @@
 ﻿(function (ng) {
     'use strict';
 
-    ng.module('seliseSchool.student.controllers', [
+    ng.module('schoolApp.student.controllers', [
         'ngRoute',
         'ui.bootstrap'
     ]);

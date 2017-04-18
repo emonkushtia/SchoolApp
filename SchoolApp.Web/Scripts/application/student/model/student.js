@@ -34,6 +34,6 @@
         ];
     }
 
-    ng.module('seliseSchool.student.models').provider('StudentProvider', [StudentProvider]);
+    ng.module('schoolApp.student.models').provider('StudentProvider', [StudentProvider]);
 
 })(_, angular);

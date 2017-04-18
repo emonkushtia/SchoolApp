@@ -4,7 +4,7 @@
 (function (ng,_) {
     'use strict';
 
-    ng.module('seliseSchool.course.controllers').controller('CourseCreateController', CourseCreateController);
+    ng.module('schoolApp.course.controllers').controller('CourseCreateController', CourseCreateController);
     CourseCreateController.$inject = ['$scope', '$route', '$location', 'CourseProvider'];
 
     function CourseCreateController($scope, $route, $location, CourseProvider) {

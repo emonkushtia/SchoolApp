@@ -2,11 +2,11 @@
 
 
 (function (ng) {
-    ng.module('seliseSchool', [
+    ng.module('schoolApp', [
             'ngRoute',
             'ngAnimate',
-            'seliseSchool.course',
-            'seliseSchool.student'
+            'schoolApp.course',
+            'schoolApp.student'
     ])
         .config([
             '$routeProvider', function ($routeProvider) {

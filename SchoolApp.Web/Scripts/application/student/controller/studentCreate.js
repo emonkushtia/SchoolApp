@@ -3,7 +3,7 @@
 (function (ng, _) {
     'use strict';
 
-    ng.module('seliseSchool.student.controllers').controller('StudentCreateController', StudentCreateController);
+    ng.module('schoolApp.student.controllers').controller('StudentCreateController', StudentCreateController);
     StudentCreateController.$inject = ['$scope', '$route', '$location', 'StudentProvider'];
 
     function StudentCreateController($scope, $route, $location, StudentProvider) {

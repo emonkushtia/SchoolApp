@@ -3,7 +3,7 @@
 (function (ng) {
     'use strict';
 
-    ng.module('seliseSchool.course.controllers', [
+    ng.module('schoolApp.course.controllers', [
         'ngRoute'
     ]);
 

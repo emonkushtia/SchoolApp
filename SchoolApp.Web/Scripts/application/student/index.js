@@ -4,11 +4,11 @@
 (function (ng) {
     'use strict';
 
-    ng.module('seliseSchool.student', [
+    ng.module('schoolApp.student', [
         'ngRoute',
-        'seliseSchool.student.controllers',
-        'seliseSchool.student.models',
-        'seliseSchool.course.models'
+        'schoolApp.student.controllers',
+        'schoolApp.student.models',
+        'schoolApp.course.models'
     ])
         .config([
             '$routeProvider',

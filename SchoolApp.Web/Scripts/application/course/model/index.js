@@ -3,6 +3,6 @@
 (function (ng) {
     'use strict';
 
-    ng.module('seliseSchool.course.models', []);
+    ng.module('schoolApp.course.models', []);
 
 })(angular);

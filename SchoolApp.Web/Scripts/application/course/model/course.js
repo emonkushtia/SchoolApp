@@ -4,7 +4,7 @@
 (function (_, ng) {
     'use strict';
 
-    ng.module('seliseSchool.course.models').provider('CourseProvider', [CourseProvider]);
+    ng.module('schoolApp.course.models').provider('CourseProvider', [CourseProvider]);
 
     function CourseProvider() {
         var url = 'api/courses';

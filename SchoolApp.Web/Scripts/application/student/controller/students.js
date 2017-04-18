@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-       .module('seliseSchool.student.controllers')
+       .module('schoolApp.student.controllers')
        .controller('StudentListController', ['$route', '$location', 'StudentProvider', StudentListController]);
 
     function StudentListController($route, $location, Student) {
