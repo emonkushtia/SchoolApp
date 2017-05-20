@@ -1,51 +1,60 @@
 ﻿namespace SchoolApp.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using AutoMapper;
+
     using Core.DataTransferObjects;
     using Core.Infastucture;
     using Core.Interfaces;
 
+    using DataAccess.DomainObjects;
+
     [RoutePrefix("api/students")]
     public class StudentsController : ApiController
     {
-        private readonly IRepositoryService<StudentItem, StudentCreateItem> repositoryService;
+        private readonly IRepository<Student> repository;
 
-        public StudentsController(IRepositoryService<StudentItem, StudentCreateItem> repositoryService)
+        public StudentsController(IRepository<Student> repository)
         {
-            this.repositoryService = repositoryService;
+            this.repository = repository;
         }
 
         [Route("")]
         public async Task<HttpResponseMessage> Get(PageableListQuery query)
         {
             query = query ?? new PageableListQuery();
-            var students = await this.repositoryService.GetPagedList(query);
+            var students = await this.repository.GetPagedList(query);
+            var list = Mapper.Map<IEnumerable<Student>, IEnumerable<StudentItem>>(students.List);
+
             return this.Request.CreateResponse(
-                HttpStatusCode.OK, students);
+                HttpStatusCode.OK, new PagedListResult<StudentItem>(list, students.Count));
         }
 
         [Route("{id:int}")]
         public async Task<HttpResponseMessage> Get(int id)
         {
-            var student = await this.repositoryService.Get(id);
-            return this.Request.CreateResponse(HttpStatusCode.OK, student);
+            var student = await this.repository.Get(id);
+            var srudentItem = Mapper.Map<StudentItem>(student);
+            return this.Request.CreateResponse(HttpStatusCode.OK, srudentItem);
         }
 
         [Route("")]
-        public async Task<HttpResponseMessage> Post(StudentCreateItem student)
+        public async Task<HttpResponseMessage> Post(StudentCreateItem studentItem)
         {
-            await this.repositoryService.Save(student);
+            var student = Mapper.Map<Student>(studentItem);
+            await this.repository.Save(student);
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [Route("{id:int}")]
         public async Task<HttpResponseMessage> Delete(int id)
         {
-            await this.repositoryService.Delete(id);
+            await this.repository.Delete(id);
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
     }

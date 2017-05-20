@@ -4,8 +4,10 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    using SeliseSchool.DataAccess.DomainObjects;
+
     [Table("Students")]
-    public class Student
+    public class Student : DomainModel
     {
         public Student()
         {

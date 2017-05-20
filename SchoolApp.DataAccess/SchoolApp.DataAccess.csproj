@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DataContext.cs" />
     <Compile Include="DomainObjects\Course.cs" />
+    <Compile Include="DomainObjects\DomainModel.cs" />
     <Compile Include="DomainObjects\Enrollment.cs" />
     <Compile Include="DomainObjects\Student.cs" />
     <Compile Include="Migrations\201610280548030_Initial.cs" />
