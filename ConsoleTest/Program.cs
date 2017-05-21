@@ -24,51 +24,56 @@ namespace ConsoleTest
             var builder = new ContainerBuilder();
 
             builder.RegisterType<DataContext>();
-
-            // builder.RegisterType<GenericRepository<Student>>().As<IRepository<Student>>();
-            //builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IRepository<>));
-           // builder.RegisterType<GenericRepository<>>().As<IRepository<>>();
             builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IRepository<>));
-            // Set the dependency resolver to be Autofac.
             var container = builder.Build();
-
             var dataContext = container.Resolve<DataContext>();
-            var srr = container.Resolve<IRepository<Student>>();
-            var genericRepository = container.Resolve<IRepository<Student>>();
+            var studentRepository = container.Resolve<IRepository<Student>>();
+            var courseRepository = container.Resolve<IRepository<Course>>();
             Mapper.Initialize(
                 cfg =>
-                    {
-                        cfg.CreateMap<StudentCreateItem, Student>().BeforeMap(
-                            (s, d) =>
-                                {
-                                    s.CoursesList.ForEach(
-                                        x =>
-                                            {
-                                                d.Enrollments.Add(
-                                                    new Enrollment
-                                                        {
-                                                            StudentId = s.Id,
-                                                            CourseId = x,
-                                                            EnrollmentDate = DateTime.Now
-                                                        });
-                                            });
-                                });
+                {
+                    cfg.CreateMap<StudentCreateItem, Student>().BeforeMap(
+                        (s, d) =>
+                        {
+                            s.CoursesList.ForEach(
+                                    x =>
+                                    {
+                                        d.Enrollments.Add(
+                                                new Enrollment
+                                                {
+                                                    StudentId = s.Id,
+                                                    CourseId = x,
+                                                    EnrollmentDate = DateTime.Now
+                                                });
+                                    });
+                        });
 
-                        cfg.CreateMap<Student, StudentItem>()
-                            .ForMember(dest => dest.CourseItems, opt => opt.MapFrom(src => src.Enrollments));
+                    cfg.CreateMap<Student, StudentItem>()
+                        .ForMember(dest => dest.CourseItems, opt => opt.MapFrom(src => src.Enrollments));
 
-                        cfg.CreateMap<Enrollment, CourseItem>()
+                    cfg.CreateMap<Enrollment, CourseItem>()
                             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CourseId))
                             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Course.Code))
                             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Course.Name));
-                        ;
-                    });
+
+                    cfg.CreateMap<Enrollment, StudentItem>()
+                        .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.StudentId))
+                        .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Student.Email))
+                        .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Student.Name))
+                        .ForMember(dest => dest.Roll, opt => opt.MapFrom(src => src.Student.Roll));
+
+                    cfg.CreateMap<Course, CourseItem>()
+                        .ForMember(dest => dest.StudentItems, opt => opt.MapFrom(src => src.Enrollments));
+                });
+
+            var course = dataContext.Courses.ToList();
+            var cs = Mapper.Map<IEnumerable<Course>, IEnumerable<CourseItem>>(course);
 
             var student = dataContext.Students.First(x => x.Id == 1);
             var stu = Mapper.Map<StudentItem>(student);
 
             var query = new PageableListQuery();
-            var students = genericRepository.GetPagedList(query).Result;
+            var students = studentRepository.GetPagedList(query).Result;
             var ssdd = Mapper.Map<IEnumerable<Student>, IEnumerable<StudentItem>>(students.List);
             new PagedListResult<StudentItem>(ssdd, 20);
             PagedListResult<StudentItem> listDest =
